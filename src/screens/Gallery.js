@@ -10,7 +10,6 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  
 } from 'react-native';
 import { DraxProvider, DraxList } from 'react-native-drax';
 import { FlatGrid } from 'react-native-super-grid';
@@ -44,7 +43,6 @@ const Gallery = ({navigation, route}) => {
     if(route.params.galleryMode !== galleryMod){
      galleryMod === 'grid' ? setGalleryMod('list') : setGalleryMod('grid')
     }
-    
   }
   const bottomAnimationRef = React.useRef(null);
   const _onScrollBegin = () => {
@@ -70,7 +68,7 @@ const Gallery = ({navigation, route}) => {
     }
   }
     
-  
+  console.log("((((((((((((((((((((", MMKV.getArray("imgArr"))
   return (
   <> 
   
@@ -82,7 +80,7 @@ const Gallery = ({navigation, route}) => {
       onScrollEndDrag={_onScrollEnd}
       itemDimension={gridSize}
       spacing={1}
-      data={imgArr}
+      data={imgArr === null ? [] :  imgArr}
       style={styles.flatGrid}
       renderItem={({ item, index}) => (
         <TouchableOpacity 
@@ -121,7 +119,11 @@ const Gallery = ({navigation, route}) => {
     )
     }
     
-    
+    <TouchableOpacity onPress={() => {openThePicker(imgArr === null ? []: imgArr)}}>
+      <View style={{height: 100, width: 200, backgroundColor: 'brown'}}>
+
+      </View>
+    </TouchableOpacity>
     {/* bottom three buttons trash - camera - plus */}
     <Animatable.View animation="fadeOutDown"duration={1}ref={bottomAnimationRef} style={{justifyContent: 'space-around',flexDirection: 'row', width: '100%', bottom: 0 , position: 'absolute',}}>
       <TouchableOpacity onPress={() => {
@@ -165,6 +167,7 @@ function openThePicker(imgArr){
     freeStyleCropEnabled: true,
     cropping: true
   }).then(image => {
+    
     MMKV.setArray("imgArr", [ ...imgArr, image])  
   });
 }
