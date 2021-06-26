@@ -25,6 +25,7 @@ const BigPicture = ({navigation, route}) => {
             
         </View>
         
+        
         </>
     );
 }
