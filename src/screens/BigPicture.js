@@ -30,34 +30,34 @@ const BigPicture = ({navigation, route}) => {
         <>
         {orientation === 'portrait' ?
         <View style={styles.container}>
-            {/* <ReactNativeZoomableView
+            <ReactNativeZoomableView
             maxZoom={3.5}
             minZoom={1}
             zoomStep={0.1}
             initialZoom={1}
             bindToBorders={true}
             onZoomAfter={this.logOutZoomState}
-            > */}
+            >
                 <View style={styles.container}>
                     <Image style={styles.image} source={{uri: `data:${route.params.item["mime"]};base64,${route.params.item["data"]}`}}/>
                 </View>
-            {/* </ReactNativeZoomableView> */}
+            </ReactNativeZoomableView>
             
         </View>
         :(
             <View style={styles.container}>
-                {/* <ReactNativeZoomableView
+                <ReactNativeZoomableView
                 maxZoom={3.5}
                 minZoom={1}
                 zoomStep={0.1}
                 initialZoom={1}
                 bindToBorders={true}
                 onZoomAfter={this.logOutZoomState}
-                > */}
+                >
                     <View style={styles.container}>
                         <Image resizeMode='contain' style={styles.imageLandscape} source={{uri: `data:${route.params.item["mime"]};base64,${route.params.item["data"]}`}}/>
                     </View>
-                {/* </ReactNativeZoomableView> */}
+                </ReactNativeZoomableView>
                 
             </View>
         )
