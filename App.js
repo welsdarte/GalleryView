@@ -7,7 +7,6 @@ import GalleryScreen from './src/screens/Gallery';
 import BigPictureScreen from './src/screens/BigPicture';
 
 import Feather from 'react-native-vector-icons/Feather';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -17,8 +16,9 @@ const MMKV = new MMKVStorage.Loader().initialize();
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useEffect } from 'react';
 
+import {MyProvider} from './src/provider/MyProvider';
+
 Feather.loadFont();
-Entypo.loadFont();
 Ionicons.loadFont();
 AntDesign.loadFont();
 SimpleLineIcons.loadFont();
@@ -30,6 +30,7 @@ const HeaderRight = () => {
   const navigation = useNavigation();
   [gMode, setGMode] = React.useState(null)
   useEffect(()=>{gMode === 'grid' ? setGMode("list") : setGMode("grid")}, [])
+  if(gMode === null && MMKV.getString("galleryMod") === null) setGMode("grid")
   if(gMode === null) setGMode(MMKV.getString("galleryMod")) 
   return (
     
@@ -42,7 +43,9 @@ const HeaderRight = () => {
             gMode === 'list' ? setGMode("grid") : setGMode("list");
           }}
           title="      "
-          color="green"
+          color="rgba(20,20,20,0)"
+          style={{ elevation : 0}}
+          
         />
     </View>
     :
@@ -52,35 +55,39 @@ const HeaderRight = () => {
           onPress={() => {gMode === 'list' ? setGMode("grid") : setGMode("list");
             ;navigation.dispatch(CommonActions.navigate("Home", {galleryMode: gMode}))}}
           title="      "
-          color="green"
+          color="rgba(20,20,20,0)"
+          style={{ elevation : 0}}
         />
     </View>
   );
 };
 const App = () => {
-  
+  MMKV.setString("galleryMod", "list")
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          
-          name="Home"
-          component={GalleryScreen}
-          options={{
+    <MyProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
             
-            headerRight: () => <HeaderRight />,
-          title: 'Gallery', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold', }}}
-          
-        />
-        <Stack.Screen
-          name="BigPicture"
-          component={BigPictureScreen}
-          options={{ title: 'Details', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold',}}}
-        />
+            name="Home"
+            component={GalleryScreen}
+            options={{
+              
+              headerRight: () => MMKV.getString("orientation") === 'landscape' ? null : <HeaderRight />,
+            title: 'Gallery', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold', }}}
+            
+          />
+          <Stack.Screen
+            name="BigPicture"
+            component={BigPictureScreen}
+            options={{ title: 'Details', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold',}}}
+          />
 
-        
-      </Stack.Navigator>
-    </NavigationContainer>
+          
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MyProvider>
+
   );
 };
 
