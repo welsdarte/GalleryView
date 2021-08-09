@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { Button, View} from 'react-native';
+import { Button, View, TouchableHighlight} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import GalleryScreen from './src/screens/Gallery';
@@ -32,35 +32,31 @@ const HeaderRight = () => {
   useEffect(()=>{gMode === 'grid' ? setGMode("list") : setGMode("grid")}, [])
   if(gMode === null && MMKV.getString("galleryMod") === null) setGMode("grid")
   if(gMode === null) setGMode(MMKV.getString("galleryMod")) 
+
   return (
-    
-    gMode === 'grid' ?
-    <View style={{flexDirection: 'row', alignItems: 'center',marginRight: 10}}> 
-      <SimpleLineIcons style={{alignSelf: 'center',position: 'absolute' }} name="grid" size={24} color='black' />
-        <Button
-          onPress={() => {
-            navigation.dispatch(CommonActions.navigate("Home", {galleryMode: gMode}))
-            gMode === 'list' ? setGMode("grid") : setGMode("list");
-          }}
-          title="      "
-          color="rgba(20,20,20,0)"
-          style={{ elevation : 0}}
-          
-        />
-    </View>
+    gMode === 'grid' 
+    ?
+      <TouchableHighlight 
+        underlayColor='transparent'
+        style={{flexDirection: 'row', alignItems: 'center',marginRight: 10}}
+        onPress={() => {gMode === 'list' ? setGMode("grid") : setGMode("list");
+        navigation.dispatch(CommonActions.navigate("Home", {galleryMode: gMode}))}}
+      >
+        <SimpleLineIcons name="grid" size={30}/>
+      </TouchableHighlight>
     :
-    <View style={{flexDirection: 'row', alignItems: 'center',marginRight: 10}}> 
-      <Ionicons style={{alignSelf: 'center',position: 'absolute' }} name="menu-outline" size={30} color='black' />
-        <Button
-          onPress={() => {gMode === 'list' ? setGMode("grid") : setGMode("list");
-            ;navigation.dispatch(CommonActions.navigate("Home", {galleryMode: gMode}))}}
-          title="      "
-          color="rgba(20,20,20,0)"
-          style={{ elevation : 0}}
-        />
-    </View>
+      <TouchableHighlight 
+        underlayColor='transparent'
+        style={{flexDirection: 'row', alignItems: 'center', marginRight: 10,}}
+        onPress={() => {gMode === 'list' ? setGMode("grid") : setGMode("list");
+        navigation.dispatch(CommonActions.navigate("Home", {galleryMode: gMode}))}}
+      >
+        <Ionicons name="menu-outline" size={30} />
+      </TouchableHighlight>
   );
 };
+
+
 const App = () => {
   MMKV.setString("galleryMod", "list")
   return (
