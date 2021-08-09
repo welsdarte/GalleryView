@@ -1,19 +1,17 @@
 import React from 'react';
-import { Text,Alert, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { Alert, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import MMKVStorage from 'react-native-mmkv-storage'
 const MMKV = new MMKVStorage.Loader().initialize();
-
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { CommonActions, useNavigation } from '@react-navigation/core';
 import ImagePicker from 'react-native-image-crop-picker';
 import {MyContext} from '../provider/MyProvider';
 
 const BigPicture = ({navigation, route}) => {
     
     const context = React.useContext(MyContext);
-    
     const [orientation, setOrientation ] = React.useState("landscape")
+    
     function detectOrientation (width, height) {
         if(width < height ){
             orientation === 'portrait' ? null : setOrientation('portrait')
@@ -42,7 +40,6 @@ const BigPicture = ({navigation, route}) => {
                     <Image style={styles.image} source={{uri: `data:${route.params.item["mime"]};base64,${route.params.item["data"]}`}}/>
                 </View>
             </ReactNativeZoomableView>
-            
         </View>
         :(
             <View style={styles.container}>
@@ -58,7 +55,6 @@ const BigPicture = ({navigation, route}) => {
                         <Image resizeMode='contain' style={styles.imageLandscape} source={{uri: `data:${route.params.item["mime"]};base64,${route.params.item["data"]}`}}/>
                     </View>
                 </ReactNativeZoomableView>
-                
             </View>
         )
         }
@@ -96,10 +92,7 @@ const BigPicture = ({navigation, route}) => {
                 </TouchableOpacity>
             </View>
         </View>
-        
-        
-        </>
-        
+        </>  
     );
 }
 

@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import MMKVStorage,{ create, useMMKVStorage } from 'react-native-mmkv-storage';
+import MMKVStorage,{ create,} from 'react-native-mmkv-storage';
 const MMKV = new MMKVStorage.Loader().initialize();
-
-const MyContext = React.createContext();
 export const useStorage = create(MMKV); 
+const MyContext = React.createContext();
 
 const MyProvider = ( props ) => {
     

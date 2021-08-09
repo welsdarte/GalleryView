@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { Button, View, TouchableHighlight} from 'react-native';
+import { TouchableHighlight} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import GalleryScreen from './src/screens/Gallery';
@@ -30,6 +30,7 @@ const HeaderRight = () => {
   const navigation = useNavigation();
   [gMode, setGMode] = React.useState(null)
   useEffect(()=>{gMode === 'grid' ? setGMode("list") : setGMode("grid")}, [])
+  
   if(gMode === null && MMKV.getString("galleryMod") === null) setGMode("grid")
   if(gMode === null) setGMode(MMKV.getString("galleryMod")) 
 
@@ -38,11 +39,11 @@ const HeaderRight = () => {
     ?
       <TouchableHighlight 
         underlayColor='transparent'
-        style={{flexDirection: 'row', alignItems: 'center',marginRight: 10}}
+        style={{flexDirection: 'row', alignItems: 'center',marginRight: 16}}
         onPress={() => {gMode === 'list' ? setGMode("grid") : setGMode("list");
         navigation.dispatch(CommonActions.navigate("Home", {galleryMode: gMode}))}}
       >
-        <SimpleLineIcons name="grid" size={30}/>
+        <SimpleLineIcons name="grid" size={24}/>
       </TouchableHighlight>
     :
       <TouchableHighlight 
@@ -64,22 +65,16 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            
             name="Home"
             component={GalleryScreen}
-            options={{
-              
-              headerRight: () => MMKV.getString("orientation") === 'landscape' ? null : <HeaderRight />,
-            title: 'Gallery', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold', }}}
-            
+            options={{headerRight: () => <HeaderRight />,
+              title: 'Gallery', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold', }}}      
           />
           <Stack.Screen
             name="BigPicture"
             component={BigPictureScreen}
             options={{ title: 'Details', headerStyle: {backgroundColor: '#ffffffff'}, headerTitleStyle:{fontWeight: 'bold',}}}
-          />
-
-          
+          />   
         </Stack.Navigator>
       </NavigationContainer>
     </MyProvider>
